@@ -13,6 +13,8 @@ steps:
     - 'testrepo'
     - '--image'
     - 'us-central1-docker.pkg.dev/graphic-ripsaw-455008-s1/testrepo/test_model_gcp_deploy:$COMMIT_SHA'
+    - '--region'
+    - 'us-central1'
 logsBucket: 'gs://ug_content_logs'
 options:
   logging: GCS_ONLY
