@@ -2,8 +2,17 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from openai import OpenAI
 import os
+from google.cloud import secretmanager_v1
+
+
+def get_api_key():
+    client = secretmanager_v1.SecretManagerServiceClient()
+    request = secretmanager_v1.GetSecretRequest(name="OPENAI_API_KEY")
+    response = client.get_secret(request=request)
+    return response.secret_value
 
 app = FastAPI()
+api_key = get_api_key()
 
 class Request(BaseModel):
     question: str
@@ -13,9 +22,7 @@ class Response(BaseModel):
 
 
 def get_answer(question):
-    client = OpenAI(
-        api_key=os.getenv("OPENAI_API_KEY"),
-    )
+    client = OpenAI(api_key=api_key)
 
     response = client.chat.completions.create(
         model="gpt-4o-mini",
