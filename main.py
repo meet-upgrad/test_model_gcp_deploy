@@ -7,11 +7,15 @@ from google.cloud import secretmanager_v1
 
 def get_api_key():
     client = secretmanager_v1.SecretManagerServiceClient()
-    request = secretmanager_v1.GetSecretRequest(name="projects/1092081510626/secrets/OPENAI_API_KEY")
-    response = client.get_secret(request=request)
-    print(response.__dir__())
-    print(response)
-    return response
+    name = "projects/1092081510626/secrets/OPENAI_API_KEY/versions/latest"
+    response = client.access_secret_version(request={"name": name})
+    return response.payload.data.decode("utf-8")
+
+    # request = secretmanager_v1.GetSecretRequest(name="projects/1092081510626/secrets/OPENAI_API_KEY")
+    # response = client.get_secret(request=request)
+    # print(response.__dir__())
+    # print(response)
+    # return response
 
 
 app = FastAPI()
