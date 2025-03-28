@@ -11,6 +11,7 @@ def get_api_key():
     response = client.get_secret(request=request)
     return response.secret_value
 
+
 app = FastAPI()
 api_key = get_api_key()
 
