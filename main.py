@@ -9,7 +9,9 @@ def get_api_key():
     client = secretmanager_v1.SecretManagerServiceClient()
     request = secretmanager_v1.GetSecretRequest(name="projects/1092081510626/secrets/OPENAI_API_KEY")
     response = client.get_secret(request=request)
-    return response.secret_value
+    print(response.__dir__())
+    print(response)
+    return response
 
 
 app = FastAPI()
