@@ -7,7 +7,7 @@ from google.cloud import secretmanager_v1
 
 def get_api_key():
     client = secretmanager_v1.SecretManagerServiceClient()
-    request = secretmanager_v1.GetSecretRequest(name="OPENAI_API_KEY")
+    request = secretmanager_v1.GetSecretRequest(name="projects/1092081510626/secrets/OPENAI_API_KEY")
     response = client.get_secret(request=request)
     return response.secret_value
 
