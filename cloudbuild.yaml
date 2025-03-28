@@ -1,0 +1,20 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: [ 'build', '-t', 'us-central1-docker.pkg.dev/graphic-ripsaw-455008-s1/testrepo/test_model_gcp_deploy:$COMMIT_SHA', '.' ]
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'us-central1-docker.pkg.dev/graphic-ripsaw-455008-s1/testrepo/test_model_gcp_deploy:$COMMIT_SHA']
+
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: gcloud
+  args:
+    - 'run'
+    - 'deploy'
+    - 'testrepo'
+    - '--image'
+    - 'us-central1-docker.pkg.dev/graphic-ripsaw-455008-s1/testrepo/test_model_gcp_deploy:$COMMIT_SHA'
+logsBucket: 'gs://ug_content_logs'
+options:
+  logging: GCS_ONLY
+images:
+  - 'us-central1-docker.pkg.dev/graphic-ripsaw-455008-s1/testrepo/test_model_gcp_deploy:$COMMIT_SHA'
